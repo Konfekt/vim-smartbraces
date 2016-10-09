@@ -34,7 +34,7 @@ function! smartbraces#CloseBrace(vm) abort
   let isEmptyDownline = getline( downline ) =~# '^\s*$'
   if isEmptyDownline
     let curcol = col('.')
-    if getline(line('.')-1) =~# '^\s*$' && (curcol == 1 || curcol <= indent('.') + 1) 
+    if getline(line('.')-1) =~# '^\s*$' && (curcol <= indent('.') + 1 && foldclosed(curline) isnot -1) 
       normal! g_
       return
     endif
