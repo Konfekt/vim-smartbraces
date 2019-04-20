@@ -10,7 +10,7 @@ of the current paragraph.
 
 ===========================================================================
 1. Config ~
-                                        *FastFold-config* *fastfold-config*
+                                    *SmartBraces-config* *SmartBraces-config*
 
 The following mappings with the following default values are available:
 >
