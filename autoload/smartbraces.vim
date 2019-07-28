@@ -7,7 +7,8 @@ function! smartbraces#OpenBrace(vm) abort
   let upline = (foldclosed(curline-1) isnot -1 ? foldclosed(curline-1) : curline) - 1
   let isEmptyUpline = getline( upline ) =~# '^\s*$'
   if isEmptyUpline
-    if getline(line('.')-1) =~# '^\s*$' && col('.') >= col('$')-1
+    let isEmptyDownline = getline(curline+1) =~# '^\s*$'
+    if isEmptyDownline && col('.')-1 > indent(curline)
       normal! ^
       return
     endif
@@ -31,11 +32,14 @@ function! smartbraces#CloseBrace(vm) abort
 
   let curline = line('.')
   let downline = (foldclosed(curline+1) isnot -1 ? foldclosedend(curline+1) : curline) + 1
-  let isEmptyDownline = getline( downline ) =~# '^\s*$'
+  let isEmptyDownline = getline(downline) =~# '^\s*$'
   if isEmptyDownline
-    let curcol = col('.')
-    if getline(line('.')-1) =~# '^\s*$' && (curcol <= indent('.') + 1 && foldclosed(curline) isnot -1) 
-      normal! g_
+    let isEmptyUpline = getline(curline-1) =~# '^\s*$'
+    if isEmptyUpline && col('.') < col('$')-1
+          " \ && foldclosed(curline) isnot -1
+      normal! $
+      " Preferrable:
+      " normal! g_
       return
     endif
 
