@@ -35,11 +35,10 @@ function! smartbraces#CloseBrace(vm) abort
   let isEmptyDownline = getline(downline) =~# '^\s*$'
   if isEmptyDownline
     let isEmptyUpline = getline(curline-1) =~# '^\s*$'
-    if isEmptyUpline && col('.') < col('$')-1
+    let isEmptyRestline = getline('.')[col('.'):] =~# '^\s*$'
+    if isEmptyUpline && !isEmptyRestline
           " \ && foldclosed(curline) isnot -1
-      normal! $
-      " Preferrable:
-      " normal! g_
+      normal! g_
       return
     endif
 
