@@ -23,17 +23,20 @@ set cpo&vim
 " ------------------------------------------------------------------------------
 
 nnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace(0)<cr>
-xnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace(1)<cr>
-onoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>normal <Plug>(smartbraces-OpenBrace)<CR>
 nnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBrace(0)<cr>
+xnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace(1)<cr>
 xnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBrace(1)<cr>
-onoremap <silent> <Plug>(smartbraces-CloseBrace)  :<c-u>normal <Plug>(smartbraces-CloseBrace)<CR>
+
+nnoremap <silent> <SID>(v) v
+
+onoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-OpenBrace)"<CR>
+onoremap <silent> <Plug>(smartbraces-CloseBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-CloseBrace)"<CR>
 
 silent! nmap <unique> {  <Plug>(smartbraces-OpenBrace)
-silent! xmap <unique> {  <Plug>(smartbraces-OpenBrace)
-silent! omap <unique> {  <Plug>(smartbraces-OpenBrace)
 silent! nmap <unique> }  <Plug>(smartbraces-CloseBrace)
+silent! xmap <unique> {  <Plug>(smartbraces-OpenBrace)
 silent! xmap <unique> }  <Plug>(smartbraces-CloseBrace)
+silent! omap <unique> {  <Plug>(smartbraces-OpenBrace)
 silent! omap <unique> }  <Plug>(smartbraces-CloseBrace)
 
 " ------------------------------------------------------------------------------
