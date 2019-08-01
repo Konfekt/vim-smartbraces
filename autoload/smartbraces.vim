@@ -1,70 +1,33 @@
-function! smartbraces#OpenBrace(vm) abort
-  if a:vm
+function! smartbraces#OpenBrace(mode) abort
+  if a:mode is# 'v'
     normal! gv
   endif
 
-  let curline = line('.')
+  let isEmptyCurline = (getline(line('.')) =~# '^\s*$')
+  let isEmptyUpline  = (getline(line('.')-1) =~# '^\s*$')
 
-  let isEmptyCurline = getline(curline) =~# '^\s*$'
-  if isEmptyCurline
-    call search('\S\s*$', 'bWz')
-    return
+  let counts = v:count1
+  if isEmptyUpline && (!isEmptyCurline && col('.')-1 <= indent(line('.')))
+    let counts += 1
   endif
-
-  let upline = (foldclosed(curline-1) isnot -1 ? foldclosed(curline-1) : curline) - 1
-  let isEmptyUpline = getline(upline) =~# '^\s*$'
-  if isEmptyUpline
-    let isEmptyDownline = getline(curline+1) =~# '^\s*$'
-    if isEmptyDownline && col('.')-1 > indent(curline)
-      normal! ^
-      return
-    endif
-
-    normal! {
-    if line('.') is 1
-      normal! ^
-    elseif !search('\S\s*$', 'bWz')
-      normal! +^
-    endif
-  else
-    normal! {
-    call search('^\s*\S', 'ecWz')
-  endif
+  exe 'normal! ' . counts . '{'
+  call search('^\s*\S', 'ecWz')
 endfunction
 
-function! smartbraces#CloseBrace(vm) abort
-  if a:vm
+function! smartbraces#CloseBrace(mode) abort
+  if a:mode is# 'v'
     normal! gv
   endif
 
-  let curline = line('.')
+  let isEmptyCurline     = (getline(line('.')) =~# '^\s*$')
+  let isEmptyDownline    = (getline(line('.')+1) =~# '^\s*$')
+  let isEmptyRestCurline = (getline('.')[col('.'):] =~# '^\s*$')
 
-  let isEmptyCurline = getline(curline) =~# '^\s*$'
-  if isEmptyCurline
-    call search('^\s*\S', 'eWz')
-    return
+  let counts = v:count1
+  if isEmptyDownline && (!isEmptyCurline && isEmptyRestCurline)
+    let counts += 1
   endif
-
-  let downline = (foldclosed(curline+1) isnot -1 ? foldclosedend(curline+1) : curline) + 1
-  let isEmptyDownline = getline(downline) =~# '^\s*$'
-  if isEmptyDownline
-    let isEmptyUpline = getline(curline-1) =~# '^\s*$'
-    let isEmptyRestCurline = getline('.')[col('.'):] =~# '^\s*$'
-    if isEmptyUpline && !isEmptyRestCurline
-          " \ && foldclosed(curline) isnot -1
-      normal! g_
-      return
-    endif
-
-    normal! }
-    if line('.') is line('$')
-      normal! g_
-    elseif !search('^\s*\S', 'eWz')
-      normal! -g_
-    endif
-  else
-    normal! }
-    call search('\S\s*$', 'bcWz')
-  endif
+  exe 'normal! ' . counts . '}'
+  call search('\S\s*$', 'bcWz')
 endfunction
 
