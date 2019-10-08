@@ -32,12 +32,24 @@ nnoremap <silent> <SID>(v) v
 onoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-OpenBrace)"<CR>
 onoremap <silent> <Plug>(smartbraces-CloseBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-CloseBrace)"<CR>
 
-silent! nmap <unique> {  <Plug>(smartbraces-OpenBrace)
-silent! nmap <unique> }  <Plug>(smartbraces-CloseBrace)
-silent! xmap <unique> {  <Plug>(smartbraces-OpenBrace)
-silent! xmap <unique> }  <Plug>(smartbraces-CloseBrace)
-silent! omap <unique> {  <Plug>(smartbraces-OpenBrace)
-silent! omap <unique> }  <Plug>(smartbraces-CloseBrace)
+if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'n')
+  silent! nmap <unique> {  <Plug>(smartbraces-OpenBrace)
+endif
+if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'n')
+  silent! nmap <unique> }  <Plug>(smartbraces-CloseBrace)
+endif
+if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'x')
+  silent! xmap <unique> {  <Plug>(smartbraces-OpenBrace)
+endif
+if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'x')
+  silent! xmap <unique> }  <Plug>(smartbraces-CloseBrace)
+endif
+if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'o')
+  silent! omap <unique> {  <Plug>(smartbraces-OpenBrace)
+endif
+if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'o')
+  silent! omap <unique> }  <Plug>(smartbraces-CloseBrace)
+endif
 
 " ------------------------------------------------------------------------------
 let &cpo= s:keepcpo
