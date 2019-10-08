@@ -3,15 +3,19 @@ function! smartbraces#OpenBrace(mode) abort
     normal! gv
   endif
 
-  let isEmptyCurline = (getline(line('.')) =~# '^\s*$')
-  let isEmptyUpline  = (getline(line('.')-1) =~# '^\s*$')
+  if g:smartbraces_spell && !&l:spell
+    'normal! ' . v:count1 . '{'
+  else
+    let isEmptyCurline = (getline(line('.')) =~# '^\s*$')
+    let isEmptyUpline  = (getline(line('.')-1) =~# '^\s*$')
 
-  let counts = v:count1
-  if isEmptyUpline && (!isEmptyCurline && col('.')-1 <= indent(line('.')))
-    let counts += 1
+    let counts = v:count1
+    if isEmptyUpline && (!isEmptyCurline && col('.')-1 <= indent(line('.')))
+      let counts += 1
+    endif
+    exe 'normal! ' . counts . '{'
+    call search('^\s*\S', 'ecWz')
   endif
-  exe 'normal! ' . counts . '{'
-  call search('^\s*\S', 'ecWz')
 endfunction
 
 function! smartbraces#CloseBrace(mode) abort
@@ -19,15 +23,19 @@ function! smartbraces#CloseBrace(mode) abort
     normal! gv
   endif
 
-  let isEmptyCurline     = (getline(line('.')) =~# '^\s*$')
-  let isEmptyDownline    = (getline(line('.')+1) =~# '^\s*$')
-  let isEmptyRestCurline = (getline('.')[col('.'):] =~# '^\s*$')
+  if g:smartbraces_spell && !&l:spell
+    'normal! ' . v:count1 . '{'
+  else
+    let isEmptyCurline     = (getline(line('.')) =~# '^\s*$')
+    let isEmptyDownline    = (getline(line('.')+1) =~# '^\s*$')
+    let isEmptyRestCurline = (getline('.')[col('.'):] =~# '^\s*$')
 
-  let counts = v:count1
-  if isEmptyDownline && (!isEmptyCurline && isEmptyRestCurline)
-    let counts += 1
+    let counts = v:count1
+    if isEmptyDownline && (!isEmptyCurline && isEmptyRestCurline)
+      let counts += 1
+    endif
+    exe 'normal! ' . counts . '}'
+    call search('\S\s*$', 'bcWz')
   endif
-  exe 'normal! ' . counts . '}'
-  call search('\S\s*$', 'bcWz')
 endfunction
 

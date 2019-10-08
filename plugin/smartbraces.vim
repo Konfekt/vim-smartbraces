@@ -22,6 +22,10 @@ let s:keepcpo         = &cpo
 set cpo&vim
 " ------------------------------------------------------------------------------
 
+if !exists('g:smartbraces_spell')
+  let g:smartbraces_spell = 0
+endif
+
 nnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace('n')<cr>
 nnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBrace('n')<cr>
 xnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace('v')<cr>
