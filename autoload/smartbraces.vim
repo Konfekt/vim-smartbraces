@@ -24,7 +24,7 @@ function! smartbraces#CloseBrace(mode) abort
   endif
 
   if g:smartbraces_spell && !&l:spell
-    'normal! ' . v:count1 . '{'
+    'normal! ' . v:count1 . '}'
   else
     let isEmptyCurline     = (getline(line('.')) =~# '^\s*$')
     let isEmptyDownline    = (getline(line('.')+1) =~# '^\s*$')
@@ -36,6 +36,22 @@ function! smartbraces#CloseBrace(mode) abort
     endif
     exe 'normal! ' . counts . '}'
     call search('\S\s*$', 'bcWz')
+  endif
+endfunction
+
+function! smartbraces#CloseParenthesis(mode) abort
+  if a:mode is# 'v'
+    normal! gv
+  endif
+
+  if g:smartbraces_spell && !&l:spell
+    'normal! ' . v:count1 . ')'
+  else
+    let counts = v:count1 - 1
+    if counts > 0
+      exe 'normal! ' . counts . ')'
+    endif
+    call search('\v\C%(%([^[:digit:]IVX]|[)''"])\zs[.]|[!?])[[:space:])''"]|[.!?]$','W')
   endif
 endfunction
 

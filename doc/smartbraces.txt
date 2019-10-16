@@ -4,9 +4,12 @@
 0. Introduction ~
                                           *SmartBraces-intro* *smartbraces-intro*
 
-This Vim plug-in makes { and } jump to the beginning respectively
-end (instead of, by default, the first empty line before respectively)
-of the current paragraph.
+This Vim plug-in makes 
+
+- the keys { and } jump to the beginning respectively end (instead of, by
+  default, the first empty line before respectively) of the current paragraph,
+- the key ) jump to the end of the current sentence (instead of the start of
+  the next sentence).
 
 ===========================================================================
 1. Config ~
@@ -20,11 +23,15 @@ The following mappings with the following default values are available:
   nmap }  <Plug>(smartbraces-CloseBrace)
   xmap }  <Plug>(smartbraces-CloseBrace)
   omap }  <Plug>(smartbraces-CloseBrace)
+
+  nmap )  <Plug>(smartbraces-CloseParenthesis)
+  xmap )  <Plug>(smartbraces-CloseParenthesis)
+  omap )  <Plug>(smartbraces-CloseParenthesis)
 <
 
-If you prefer that the keys { and } jump to the beginning respectively to the
-end of the current paragraph only inside spellchecked buffers, but work as
-usual otherwise, add
+If you prefer that the keys { and }, as well as ), jump to the beginning
+respectively to the end of the current paragraph, respectively sentence,  only
+inside spellchecked buffers, but work as usual otherwise, add
 >
   let g:smartbraces_spell = 1
 <

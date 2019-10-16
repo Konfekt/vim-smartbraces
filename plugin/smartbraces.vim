@@ -31,10 +31,14 @@ nnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBra
 xnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace('v')<cr>
 xnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBrace('v')<cr>
 
+nnoremap <silent> <Plug>(smartbraces-CloseParenthesis) :<c-u>call smartbraces#CloseParenthesis('n')<cr>
+xnoremap <silent> <Plug>(smartbraces-CloseParenthesis) :<c-u>call smartbraces#CloseParenthesis('v')<cr>
+
 nnoremap <silent> <SID>(v) v
 
 onoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-OpenBrace)"<CR>
 onoremap <silent> <Plug>(smartbraces-CloseBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-CloseBrace)"<CR>
+onoremap <silent> <Plug>(smartbraces-CloseParenthesis)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-CloseParenthesis)"<CR>
 
 if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'n')
   silent! nmap <unique> {  <Plug>(smartbraces-OpenBrace)
@@ -53,6 +57,16 @@ if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'o')
 endif
 if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'o')
   silent! omap <unique> }  <Plug>(smartbraces-CloseBrace)
+endif
+
+if !hasmapto('<Plug>(smartbraces-CloseParenthesis)', 'n')
+  silent! nmap <unique> )  <Plug>(smartbraces-CloseParenthesis)
+endif
+if !hasmapto('<Plug>(smartbraces-CloseParenthesis)', 'x')
+  silent! xmap <unique> )  <Plug>(smartbraces-CloseParenthesis)
+endif
+if !hasmapto('<Plug>(smartbraces-CloseParenthesis)', 'o')
+  silent! omap <unique> )  <Plug>(smartbraces-CloseParenthesis)
 endif
 
 " ------------------------------------------------------------------------------
