@@ -13,7 +13,7 @@ This Vim plug-in makes
 
 ===========================================================================
 1. Config ~
-                                    *SmartBraces-config* *SmartBraces-config*
+                                    *SmartBraces-config* *smartbraces-config*
 
 The following mappings with the following default values are available:
 >
