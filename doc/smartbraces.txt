@@ -4,12 +4,21 @@
 0. Introduction ~
                                           *SmartBraces-intro* *smartbraces-intro*
 
-This Vim plug-in makes 
+This Vim plug-in makes
 
-- the keys { and } jump to the beginning respectively end (instead of, by
-  default, the first empty line before respectively) of the current paragraph,
+- the keys { and } jump to the beginning respectively end of the current
+  paragraph (instead of, by default, the first empty line before respectively
+  after it),
 - the key ) jump to the end of the current sentence (instead of the start of
   the next sentence).
+
+Pressed again at the beginning (or end) of a paragraph, { (or }) jumps to the
+beginning (or end) of the previous (or next) paragraph. Counts work in Normal,
+Visual and Operator-pending mode.
+
+After an operator, } and ) are |inclusive|, so that, for example, d) deletes
+the rest of the current sentence up to and including its final punctuation
+mark, whereas { is |exclusive|, as Vim's own backward motions are.
 
 ===========================================================================
 1. Config ~
@@ -28,9 +37,17 @@ The following mappings with the following default values are available:
   xmap )  <Plug>(smartbraces-CloseParenthesis)
   omap )  <Plug>(smartbraces-CloseParenthesis)
 <
+No default mapping is created in a mode in which some key is already mapped
+to the <Plug> mapping, or in which the key itself is already mapped. To
+keep, for example, the native behavior of } after an operator, add
+>
+  onoremap } }
+<
+to your vimrc.
 
+                                                        *g:smartbraces_spell*
 If you prefer that the keys { and }, as well as ), jump to the beginning
-respectively to the end of the current paragraph, respectively sentence,  only
+respectively to the end of the current paragraph, respectively sentence, only
 inside spellchecked buffers, but work as usual otherwise, add
 >
   let g:smartbraces_spell = 1
