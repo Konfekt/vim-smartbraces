@@ -18,57 +18,26 @@ if exists('g:loaded_smartbraces')
 endif
 let g:loaded_smartbraces = 1
 
-let s:keepcpo         = &cpo
-set cpo&vim
+let s:keepcpo = &cpoptions
+set cpoptions&vim
 " ------------------------------------------------------------------------------
 
 if !exists('g:smartbraces_spell')
   let g:smartbraces_spell = 0
 endif
 
-nnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace('n')<cr>
-nnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBrace('n')<cr>
-xnoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>call smartbraces#OpenBrace('v')<cr>
-xnoremap <silent> <Plug>(smartbraces-CloseBrace) :<c-u>call smartbraces#CloseBrace('v')<cr>
-
-nnoremap <silent> <Plug>(smartbraces-CloseParenthesis) :<c-u>call smartbraces#CloseParenthesis('n')<cr>
-xnoremap <silent> <Plug>(smartbraces-CloseParenthesis) :<c-u>call smartbraces#CloseParenthesis('v')<cr>
-
-nnoremap <silent> <SID>(v) v
-
-onoremap <silent> <Plug>(smartbraces-OpenBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-OpenBrace)"<CR>
-onoremap <silent> <Plug>(smartbraces-CloseBrace)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-CloseBrace)"<CR>
-onoremap <silent> <Plug>(smartbraces-CloseParenthesis)  :<c-u>exe "keepjumps normal \<SID>(v)\<Plug>(smartbraces-CloseParenthesis)"<CR>
-
-if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'n')
-  silent! nmap <unique> {  <Plug>(smartbraces-OpenBrace)
-endif
-if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'n')
-  silent! nmap <unique> }  <Plug>(smartbraces-CloseBrace)
-endif
-if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'x')
-  silent! xmap <unique> {  <Plug>(smartbraces-OpenBrace)
-endif
-if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'x')
-  silent! xmap <unique> }  <Plug>(smartbraces-CloseBrace)
-endif
-if !hasmapto('<Plug>(smartbraces-OpenBrace)', 'o')
-  silent! omap <unique> {  <Plug>(smartbraces-OpenBrace)
-endif
-if !hasmapto('<Plug>(smartbraces-CloseBrace)', 'o')
-  silent! omap <unique> }  <Plug>(smartbraces-CloseBrace)
-endif
-
-if !hasmapto('<Plug>(smartbraces-CloseParenthesis)', 'n')
-  silent! nmap <unique> )  <Plug>(smartbraces-CloseParenthesis)
-endif
-if !hasmapto('<Plug>(smartbraces-CloseParenthesis)', 'x')
-  silent! xmap <unique> )  <Plug>(smartbraces-CloseParenthesis)
-endif
-if !hasmapto('<Plug>(smartbraces-CloseParenthesis)', 'o')
-  silent! omap <unique> )  <Plug>(smartbraces-CloseParenthesis)
-endif
+for [s:name, s:key] in [['OpenBrace', '{'], ['CloseBrace', '}'], ['CloseParenthesis', ')']]
+  let s:plug = '<Plug>(smartbraces-' . s:name . ')'
+  for s:mode in ['n', 'x', 'o']
+    execute printf('%snoremap <silent> %s :<C-U>%scall smartbraces#%s(%s)<CR>',
+          \ s:mode, s:plug, s:mode is# 'o' ? 'keepjumps ' : '', s:name, string(s:mode))
+    if !hasmapto(s:plug, s:mode)
+      execute 'silent! ' . s:mode . 'map <unique> ' . s:key . ' ' . s:plug
+    endif
+  endfor
+endfor
+unlet s:name s:key s:plug s:mode
 
 " ------------------------------------------------------------------------------
-let &cpo= s:keepcpo
+let &cpoptions = s:keepcpo
 unlet s:keepcpo
