@@ -5,6 +5,7 @@ This Vim plug-in makes
 
 Pressed again at the beginning (or end) of a paragraph, `{` (or `}`) jumps to the beginning (or end) of the previous (or next) paragraph.
 Counts work in Normal, Visual and Operator-pending mode.
+A sentence ends at a `.`, `!` or `?`, followed by any closing `)`, `]`, `"` or `'`, and then a space, a tab or the end of the line; as for Vim's own sentence motions, the end of a paragraph also ends a sentence.
 After an operator, `}` and `)` include the last character of the paragraph or sentence, so that, for example, `d)` deletes the rest of the current sentence up to and including its final punctuation mark.
 
 # Setup

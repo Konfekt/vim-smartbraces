@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " LICENCE PUBLIQUE RIEN À BRANLER
 " Version 1, Mars 2009
 "

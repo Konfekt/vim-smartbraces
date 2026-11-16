@@ -16,6 +16,12 @@ Pressed again at the beginning (or end) of a paragraph, { (or }) jumps to the
 beginning (or end) of the previous (or next) paragraph. Counts work in Normal,
 Visual and Operator-pending mode.
 
+A sentence ends at a '.', '!' or '?', followed by any closing ')', ']', '"'
+or ''', and then a space, a tab or the end of the line. A '.' right after a
+digit or one of I, V and X, as in an enumeration, only ends a sentence at the
+end of a line. As for Vim's own |sentence| motions, the end of a paragraph
+also ends a sentence.
+
 After an operator, } and ) are |inclusive|, so that, for example, d) deletes
 the rest of the current sentence up to and including its final punctuation
 mark, whereas { is |exclusive|, as Vim's own backward motions are.
