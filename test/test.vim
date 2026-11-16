@@ -157,6 +157,40 @@ function! Test_open_brace_tab_indent() abort
   call assert_equal([3, 2], s:pos())
 endfunction
 
+" The end of a paragraph ends a sentence: ) does not run into the next
+" paragraph when a line such as a heading has no final punctuation mark.
+function! Test_close_parenthesis_stops_at_paragraph_end() abort
+  call s:buf(['Introduction', '', 'Text here. More.'], 1, 1)
+  call s:keys(')')
+  call assert_equal([1, 12], s:pos())
+  " pressed again, go on to the first sentence of the next paragraph
+  call s:keys(')')
+  call assert_equal([3, 10], s:pos())
+  call s:buf(['Introduction', '', 'Text here. More.'], 1, 1)
+  call s:keys('d)')
+  call assert_equal(['', '', 'Text here. More.'], getline(1, '$'))
+endfunction
+
+" Closing parentheses and quotes after the punctuation mark belong to the
+" sentence.
+function! Test_close_parenthesis_includes_closers() abort
+  call s:buf(['He said (like "this.") Then more.'], 1, 1)
+  call s:keys(')')
+  call assert_equal([1, 22], s:pos())
+  call s:buf(['He said (like "this.") Then more.'], 1, 1)
+  call s:keys('d)')
+  call assert_equal(' Then more.', getline(1))
+endfunction
+
+" With no sentence ahead, ) stays put and d) deletes nothing.
+function! Test_close_parenthesis_at_end_of_buffer() abort
+  call s:buf(['One two.'], 1, 8)
+  call s:keys(')')
+  call assert_equal([1, 8], s:pos())
+  call s:keys('d)')
+  call assert_equal(['One two.'], getline(1, '$'))
+endfunction
+
 " Runner
 let s:failed = 0
 let s:out = []
